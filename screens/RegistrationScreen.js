@@ -1,21 +1,27 @@
 import { View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { useState } from "react";
-import styles from "../styles/registrationStyles";
+import styles from "../styles/registrationScreenStyles";
+import { useNavigation } from '@react-navigation/native';
 
 export default function RegistrationScreen() {
     const [login, setLogin] = useState('');
     const [email, setEmail] = useState('');
+
     const [password, setPassword] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+
     const [isLoginFocused, setIsLoginFocused] = useState(false);
     const [isEmailFocused, setIsEmailFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
+    const navigation = useNavigation();
+
     const handleSubmit = () => {
         console.log(`login: ${login} email: ${email} password: ${password}`);
-        setLogin('');
-        setEmail('');
-        setPassword('');
+         navigation.navigate('Home', {
+            screen: 'Публикации',
+            params: { login, email, password },
+        });
     };
     return (
         <>
@@ -70,7 +76,7 @@ export default function RegistrationScreen() {
                     <TouchableOpacity style={styles.registrationButton} onPress={handleSubmit}>
                         <Text style={styles.registrationButtonTitle}>Зарегистрироваться</Text>
                     </TouchableOpacity>
-                    <Text style={styles.registrationLink}>Уже есть аккаунт? Войти</Text>
+                    <Text style={styles.registrationLink} >Уже есть аккаунт? <Text onPress={() => navigation.navigate("Login")}>Войти</Text> </Text>
                 </View>
             </View>
         </>
