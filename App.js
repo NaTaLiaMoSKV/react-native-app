@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { useFonts } from 'expo-font';
 import RegistrationScreen from "./screens/RegistrationScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -18,11 +18,14 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <RegistrationScreen/>
-      {/* <LoginScreen/> */}
-      {/* <PostsScreen/> */}
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <RegistrationScreen/>
+        {/* <LoginScreen/> */}
+        {/* <PostsScreen/> */}
+      </View>
+    </TouchableWithoutFeedback>
+    
   );
 }
 const styles = StyleSheet.create({

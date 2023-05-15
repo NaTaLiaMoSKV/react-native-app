@@ -7,9 +7,15 @@ export default function RegistrationScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const [isLoginFocused, setIsLoginFocused] = useState(false);
+    const [isEmailFocused, setIsEmailFocused] = useState(false);
+    const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
     const handleSubmit = () => {
-      console.debug('Welcome!');
+        console.log(`login: ${login} email: ${email} password: ${password}`);
+        setLogin('');
+        setEmail('');
+        setPassword('');
     };
     return (
         <>
@@ -22,9 +28,45 @@ export default function RegistrationScreen() {
                 </View>
                 <Text style={styles.registrationTitle}>Регистрация</Text>
                 <View style={styles.registrationForm}>
-                    <TextInput onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} style={styles.registrationInput} placeholderTextColor="#BDBDBD" placeholder="Логин" value={login} onChangeText={setLogin} />
-                    <TextInput onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} style={styles.registrationInput} placeholderTextColor="#BDBDBD" placeholder="Адрес электронной почты" value={email} onChangeText={setEmail} />
-                    <TextInput onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} style={styles.registrationInput} placeholderTextColor="#BDBDBD" placeholder="Пароль" value={password} onChangeText={setPassword} />
+                     <TextInput
+                        style={{
+                            ...styles.registrationInput,
+                            borderColor: isLoginFocused ? '#FF6C00' : '#E8E8E8',
+                            backgroundColor: isLoginFocused ? '#FFF' : '#F6F6F6'
+                        }}
+                        onFocus={() => {setIsFocused(true), setIsLoginFocused(true)}}
+                        onBlur={() => {setIsFocused(false), setIsLoginFocused(false)}}
+                        placeholderTextColor="#BDBDBD"
+                        placeholder="Логин"
+                        value={login} onChangeText={setLogin}
+                    />
+                     <TextInput
+                        style={{
+                            ...styles.registrationInput,
+                            borderColor: isEmailFocused ? '#FF6C00' : '#E8E8E8',
+                            backgroundColor: isEmailFocused ? '#FFF' : '#F6F6F6'
+                        }}
+                        onFocus={() => {setIsFocused(true), setIsEmailFocused(true)}}
+                        onBlur={() => {setIsFocused(false), setIsEmailFocused(false)}}
+                        placeholderTextColor="#BDBDBD"
+                        placeholder="Адрес электронной почты"
+                        autoCapitalize="none"
+                        keyboardType="email-address"
+                        value={email} onChangeText={setEmail}
+                    />
+                    <TextInput
+                        style={{
+                            ...styles.registrationInput,
+                            borderColor: isPasswordFocused ? '#FF6C00' : '#E8E8E8',
+                            backgroundColor: isPasswordFocused ? '#FFF' : '#F6F6F6'
+                        }}
+                        onFocus={() => {setIsFocused(true), setIsPasswordFocused(true)}}
+                        onBlur={() => {setIsFocused(false), setIsPasswordFocused(false)}}
+                        placeholderTextColor="#BDBDBD"
+                        secureTextEntry={true}
+                        placeholder="Пароль"
+                        value={password} onChangeText={setPassword}
+                    />
                     <TouchableOpacity style={styles.registrationButton} onPress={handleSubmit}>
                         <Text style={styles.registrationButtonTitle}>Зарегистрироваться</Text>
                     </TouchableOpacity>

@@ -48,10 +48,6 @@ const styles = StyleSheet.create({
     },
     registrationForm: {
         margin: 16,
-        // flex: 1,
-        // backgroundColor: "#fff",
-        justifyContent: "flex-end",
-        // paddingBottom: 30,
     },
     registrationInput: {
         height: 50,
