@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import styles from "../styles/commentsScreenStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -22,11 +22,12 @@ export default function CommentsScreen() {
                     />
                 </TouchableOpacity>
             </View>
-            <View style={styles.commentsContainer}>
+            <ScrollView style={styles.commentsContainer}>
                 <Image source={image} />
                 <Image style={{marginTop: 32, width: 343, height: 323}} source={require('../assets/images/comments.png')} />
-                <Image style={{marginTop: 32, marginBottom: 40, width: 343, height: 50}} source={require('../assets/images/search.png')} />
-            </View>
+            </ScrollView>
+            <Image style={styles.searchImage} source={require('../assets/images/search.png')} />
+            
 
 
         </View>

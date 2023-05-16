@@ -4,7 +4,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFF',
-        justifyContent: 'space-between'
     },
     title: {
         fontSize: 17,
@@ -30,10 +29,19 @@ const styles = StyleSheet.create({
         bottom: 5,
     },
     commentsContainer: {
-        marginTop: 32,
+        marginTop: 10,
         marginLeft: 'auto',
         marginRight: 'auto',
+        marginBottom: 10,
     },
+    searchImage: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: 30,
+
+        width: 343,
+        height: 50
+    }
 })
 
 export default styles;

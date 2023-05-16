@@ -26,8 +26,10 @@ export default function ProfileScreen({ navigation }) {
                         <Text style={styles.profilePostName}>{item.title}</Text>
                         <View style={styles.profilePostDecription}>
                             <View style={styles.profilePostInfo}>
-                                <Image source={require('../assets/images/comment.png')}/>
-                                <Text style={styles.profilePostInfoText}>{item.comments}</Text>
+                                <TouchableOpacity style={{flexDirection: 'row'}} onPress={() =>  navigation.navigate('Comments', {image: item.image})} >
+                                    <Image source={require('../assets/images/comment.png')} />
+                                    <Text style={styles.profilePostInfoText}>{item.comments}</Text>
+                                </TouchableOpacity>
                                 <Image source={require('../assets/images/like.png')}/>
                                 <Text style={styles.profilePostInfoText}>{item.likes}</Text>
                             </View>

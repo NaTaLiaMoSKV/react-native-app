@@ -20,11 +20,8 @@ export default function CreatePostsScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.addPhotoContainer}>
-                <View style={styles.addPhotoWrapper}>
-                    <View style={styles.addPhotoIcon}>
-                        <Image source={require('../assets/images/camera.png')} />
-                    </View>
-                </View>
+                <Image source={require('../assets/images/content-block.png')} />
+                <Image style={styles.addPhotoIcon} source={require('../assets/images/camera.png')} />
                 <Text style={styles.addPhotoText}>Загрузите фото</Text>
             </View>
             <View style={styles.addPostContainer}>

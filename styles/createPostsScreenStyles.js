@@ -10,18 +10,10 @@ const styles = StyleSheet.create({
     addPhotoContainer: {
         width: 343,
     },
-    addPhotoWrapper: {
-        height: 240,
-        borderRadius: 8,
-        backgroundColor: '#F6F6F6',
-        borderWidth: 1,
-        borderColor: '#F6F6F6',
-    },
     addPhotoIcon: {
-        padding: 18,
-        backgroundColor: "#fff",
+        width: 60,
+        height: 60,
         position: 'absolute',
-        borderRadius: '50%',
         top: '50%',
         left: '50%',
         transform: [{ translateX: -30 }, { translateY: -30 }],
