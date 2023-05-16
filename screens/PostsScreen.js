@@ -1,13 +1,12 @@
 import { View, Text,TouchableOpacity, Image } from "react-native";
 import styles from "../styles/postsScreenStyles";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
+import POSTS from "../db/posts";
+import { FlatList } from "react-native-gesture-handler";
 
 const PostsScreen = () => {
     const navigation = useNavigation();
-    const { params: { email, login } } = useRoute();
-    
-
+    // const { params: { email, login } } = useRoute();
 
     const handleLogout = () => {
         navigation.navigate('Login');
@@ -25,11 +24,33 @@ const PostsScreen = () => {
                 <View style={styles.userContainer}>
                     <Image source={require('../assets/images/user.png')} style={{marginRight: 8}} />
                     <View style={styles.userDescription}>
-                        <Text style={styles.userName}>{ login ? login : 'Natalia Romanova'}</Text>
-                        <Text style={styles.userEmail}>{ email ? email : 'example@mail.com' }</Text>
+                        <Text style={styles.userName}>Natalia Romanova</Text>
+                        <Text style={styles.userEmail}>example@mail.com</Text>
                     </View>
                 </View>
             </View>
+            <FlatList contentContainerStyle={{ alignItems: 'center', marginTop: 16, paddingBottom: 16 }}
+                    data={POSTS}
+                    renderItem={({ item }) => <View style={styles.profilePost}>
+                        <Image source={item.image}/>
+                        <Text style={styles.profilePostName}>{item.title}</Text>
+                        <View style={styles.profilePostDecription}>
+                            <View style={styles.profilePostInfo}>
+                                <TouchableOpacity style={{flexDirection: 'row'}} onPress={() =>  navigation.navigate('Comments', {image: item.image})} >
+                                    <Image source={require('../assets/images/comment.png')} />
+                                    <Text style={styles.profilePostInfoText}>{item.comments}</Text>
+                                </TouchableOpacity>
+                                <Image source={require('../assets/images/like.png')}/>
+                                <Text style={styles.profilePostInfoText}>{item.likes}</Text>
+                            </View>
+                            <View style={styles.profilePostInfo}>
+                                <Image source={require('../assets/images/map.png')}/>
+                                <Text style={styles.profilePostLocationText}>{item.location}</Text>
+                            </View>
+                        </View>
+                    </View>}
+                    keyExtractor={(item) => (item.id)}
+                />
             
         </View>
     )

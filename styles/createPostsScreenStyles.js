@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
         transform: [{ translateX: -30 }, { translateY: -30 }],
     },
     addPhotoText: {
+        fontFamily: 'Roboto-Regular',
         marginTop: 8,
         fontSize: 16,
         fontWeight: 400,
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
         padding: 16,
         paddingLeft: 0,
         marginTop: 16,
+        fontFamily: 'Roboto-Regular',
         fontWeight: 400,
         fontSize: 16,
         borderBottomColor: '#E8E8E8',

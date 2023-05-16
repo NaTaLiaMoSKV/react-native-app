@@ -1,54 +1,55 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF',
-    },
-    title: {
-        fontSize: 17,
-        fontWeight: 600,
-        color: '#282831',
-        textAlign: 'center',
-    },
-    header: {
+    bgImage: {
+        position: 'absolute',
         width: '100%',
-        height: 88,
+    },
+    profileView: {
+        position: "relative",
+        marginTop: 263,
+        backgroundColor: '#FFFFFF',
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        flex: 1,
+    },
+    loadPhotoView: {
+        position: "absolute",
+        top: -60,
+        left: '50%',
+        transform: [{ translateX: -50 }],
+        width: 120,
+        height: 120,
+        backgroundColor: "#F6F6F6",
+        borderRadius: 16,
+    },
+    loadPhotoButton: {
+        position: "absolute",
+        width: 25,
+        height: 25,
+        bottom: 14,
+        right: -12,
+        padding: 6,
 
-        backgroundColor: '#fff',
-        borderBottomColor: 'rgb(216, 216, 216)',
-        shadowColor: 'rgb(216, 216, 216)',
-        shadowOpacity: 0.85,
-        color: '#282831',
-        justifyContent: 'flex-end',
-        paddingBottom: 10,
+        backgroundColor: '#FFF',
+        borderColor: "#BDBDBD",
+        borderWidth: 1,
+        borderRadius: 16,
+    },
+    profileTitle: {
+        marginTop: 46,
+        fontFamily: 'Roboto-Medium',
+        fontSize: 30,
+        fontWeight: 500,
+        textAlign: "center",
+        lineHeight: 35,
+        letterSpacing: 0.01,
+        color: '#212121',
     },
     button: {
-        position: 'absolute',
-        right: 10,
-        bottom: 10,
-    },
-    postsContainer: {
-        marginTop: 32,
-        marginLeft: 16,
+        marginLeft: 'auto',
         marginRight: 16,
-    },
-    userContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    userName: {
-        fontWeight: 700,
-        fontSize: 13,
-        lineHeight: 15,
-        color:'#212121',
-    },
-    userEmail: {
-        fontWeight: 400,
-        fontSize: 11,
-        lineHeight: 13,
-        color:'rgba(33, 33, 33, 0.8)',
+        marginTop: 22,
     },
     profilePost: {
         marginBottom: 32,
@@ -89,6 +90,6 @@ const styles = StyleSheet.create({
         lineHeight: 19,
         color: '#212121',
     },
-});
+})
 
 export default styles;

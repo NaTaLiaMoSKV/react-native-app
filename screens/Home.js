@@ -1,10 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import Icon from 'react-native-vector-icons/Feather';
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { Ionicons } from "@expo/vector-icons";
+import Icon from 'react-native-vector-icons/Feather';
 
 import PostsScreen from './PostsScreen';
 import CreatePostsScreen from './CreatePostsScreen';
@@ -14,10 +13,6 @@ const Tab = createBottomTabNavigator();
 
 const Home = () => {
     const navigation = useNavigation();
-
-    const handleLogout = () => {
-        navigation.navigate('Login');
-    };
 
     return (
         <Tab.Navigator>
@@ -29,11 +24,17 @@ const Home = () => {
                     headerShown: false,
                     tabBarLabel: () => null,
                 }}
-            />
+            />            
             <Tab.Screen name="Создать публикацию" component={CreatePostsScreen}
                 options={{
                     tabBarIcon: ({ focused, size }) => (
                         <Icon name="plus" color={focused ? '#FF6C00' : '#BDBDBD'} size={size}/>
+                    ),
+                    headerLeft: () => (
+                        <Ionicons name="arrow-back" size={20} color="#21212180"
+                            onPress={() => { navigation.navigate('Публикации') }}
+                            style={{ marginLeft: 10, padding: 5, transform: [{ scaleX: 1.1 }] }}
+                        />
                     ),
                     tabBarLabel: () => null,
                 }}
@@ -50,21 +51,5 @@ const Home = () => {
         </Tab.Navigator>
     );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    },
-    addIcon: {
-        backgroundColor: '#FF6C00',
-        width: 70,
-        height: 40,
-        borderRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-});
 
 export default Home;
