@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   },
   headerLeftContainer: {
     marginLeft: 16, 
-    padding: 10, // Внутренний отступ
-    borderRadius: 5, // Закругление углов
+    padding: 10,
+    borderRadius: 5,
     color: '#212121',
   },
 });

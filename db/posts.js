@@ -1,8 +1,9 @@
-const POSTS = [
+export default POSTS = [
   {
     id: "gldoemthldv",
     title: "Лес",
     image: require('../assets/images/forest.png'),
+    // image: 'C:/Users/Natalia/Documents/GitHub/React native/react-native-app/assets/images/forest.png',
     comments: 8,
     likes: 152,
     location : 'Ukraine',
@@ -24,5 +25,3 @@ const POSTS = [
     location : 'Italy',
   }
 ];
-
-export default POSTS;

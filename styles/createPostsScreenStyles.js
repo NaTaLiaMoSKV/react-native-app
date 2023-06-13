@@ -11,20 +11,55 @@ const styles = StyleSheet.create({
         width: 343,
     },
     addPhotoIcon: {
-        width: 60,
-        height: 60,
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: [{ translateX: -30 }, { translateY: -30 }],
+        width: 24,
+        height: 24,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: [{ translateX: -12 }, { translateY: -12 }],
     },
     addPhotoText: {
         fontFamily: 'Roboto-Regular',
         marginTop: 8,
         fontSize: 16,
-        fontWeight: 400,
         lineHeight: 19,
         color: '#BDBDBD',
+    },
+        photoView: {
+        height: 240,
+        width: 343,
+        borderRadius: 8,
+        justifyContent: "center",
+    },
+    cameraContainer: {
+        height: 240,
+        alignSelf: "center",
+        justifyContent: 'center',
+        position: 'relative',
+        width: 343,
+    },
+    camera: {
+        flex: 1,
+    },
+    previewImage: {
+        flex: 1,
+        width: "100%",
+    },
+    button: {
+        position: "absolute",
+        borderRadius: '50%',
+        alignSelf: "center",
+        width: 60,
+        height: 60,
+        backgroundColor: '#fff',
+    },
+    deleteButton: {
+        position: "absolute",
+        borderRadius: '50%',
+        alignSelf: "center",
+        width: 60,
+        height: 60,
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
     },
     addPostContainer: {
         marginTop: 16,
@@ -35,7 +70,6 @@ const styles = StyleSheet.create({
         paddingLeft: 0,
         marginTop: 16,
         fontFamily: 'Roboto-Regular',
-        fontWeight: 400,
         fontSize: 16,
         borderBottomColor: '#E8E8E8',
         borderBottomWidth: 1,
@@ -50,7 +84,8 @@ const styles = StyleSheet.create({
     addPostButtonTitle: {
         textAlign: 'center',
         color: '#BDBDBD',
-    }
+    },
+
 })
 
 export default styles;
