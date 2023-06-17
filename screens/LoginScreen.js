@@ -2,6 +2,8 @@ import { View, Text, Image, TouchableOpacity, KeyboardAvoidingView, TextInput } 
 import { useState } from "react";
 import styles from "../styles/registrationScreenStyles";
 import { useNavigation } from "@react-navigation/native";
+import { authSignIn } from "../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
@@ -11,14 +13,11 @@ export default function LoginScreen() {
     const [isEmailFocused, setIsEmailFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
 
     const handleSubmit = () => {
-        console.log(`email: ${email} password: ${password}`);
-        navigation.navigate('Home', {
-            screen: 'Публикации',
-            params: { email, password },
-        });
+        dispatch(authSignIn(email, password));
     };
 
     return (

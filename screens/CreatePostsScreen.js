@@ -1,15 +1,17 @@
 import { Image, Text, View, TextInput, TouchableOpacity } from "react-native";
 import styles from "../styles/createPostsScreenStyles";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
+
+import { app } from '../firebase/config';
+import { getStorage, ref, uploadBytes  } from "firebase/storage";
 
 export default function CreatePostsScreen() {
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [coords, setCoords] = useState(null);
-    const [photoUri, setPhotoUri] = useState(null);
     const [isFocused, setIsFocused] = useState(false);
     const [photo, setPhoto] = useState(null);
     const [hasPermission, setHasPermission] = useState(null);
@@ -20,52 +22,58 @@ export default function CreatePostsScreen() {
    
     const takePhoto = async () => {
         if (cameraRef.current) {
-            const photo = await cameraRef.current.takePictureAsync();
-            setPhotoUri(photo.uri);
+            const { uri } = await cameraRef.current.takePictureAsync();
+            setPhoto(uri);
 
             const location = await Location.getCurrentPositionAsync({});
             setCoords({ latitude: location.coords.latitude, longitude: location.coords.longitude });
         }
     };
 
-     useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestPermissionsAsync();
-            if (status !== "granted") {
-                console.log("Permission to access location was denied");
-            }
-            })();
-    }, []);
+    const uploadPhotoToServer = async () => {
+        const storage = getStorage(app);
+        const response = await fetch(photo);
+        const fileBlob = await response.blob();
+        const uniquePostId = Date.now().toString();
+
+        const storageRef = ref(storage, `postImage/${uniquePostId}`);
+
+        const uploadTask = await uploadBytes(storageRef, fileBlob);
+
+        console.log(uploadTask);
+
+    }
 
     const deletePhoto = () => {
-        setPhotoUri(null);
+        setPhoto(null);
     };
 
     const navigation = useNavigation();
 
     const handleSubmit = () => {
-        const newPost = {
-            id: name + location,
-            title: name,
-            image: { uri: photoUri },
-            comments: 0,
-            likes: 0,
-            location: location,
-            coords: coords,
-        };
-        setPhotoUri(null);
+        uploadPhotoToServer();
+        // const newPost = {
+        //     id: name + location,
+        //     title: name,
+        //     image: { uri: photoUri },
+        //     comments: 0,
+        //     likes: 0,
+        //     location: location,
+        //     coords: coords,
+        // };
+        setPhoto(null);
         setName('');
         setLocation('');
         setCoords(null)
-        navigation.navigate('DefaultPosts', { newPost });
+        navigation.navigate('DefaultPosts');
     };
     
     return (
         <View style={styles.container}>
             <View style={styles.cameraContainer}>
-                { photoUri ? (
+                { photo ? (
                     <>
-                        <Image source={{ uri: photoUri }} style={styles.previewImage} />
+                        <Image source={{ uri: photo }} style={styles.previewImage} />
                         <TouchableOpacity style={styles.deleteButton} onPress={deletePhoto}>
                             <Image style={styles.addPhotoIcon} source={require('../assets/images/camera1.png')} />
                         </TouchableOpacity>
@@ -97,7 +105,7 @@ export default function CreatePostsScreen() {
                     placeholder="Местность..."
                     value={location} onChangeText={setLocation}
                 />
-                {name !== '' && location !== '' && photoUri !== null && coords !== null ? (
+                {name !== '' && location !== '' && photo !== null && coords !== null ? (
                     <TouchableOpacity style={{...styles.addPostButton, backgroundColor: '#FF6C00'}} onPress={handleSubmit}>
                         <Text style={{...styles.addPostButtonTitle, color: '#FFFFFF'}}>Опубликовать</Text>
                     </TouchableOpacity>

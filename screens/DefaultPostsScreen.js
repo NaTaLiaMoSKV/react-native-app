@@ -3,9 +3,12 @@ import styles from "../styles/postsScreenStyles";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { authSignOut } from "../redux/auth/authOperations";
 
 const DefaultPostsScreen = ({ route }) => {
     const [posts, setPosts] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (route.params == undefined) {
@@ -19,15 +22,15 @@ const DefaultPostsScreen = ({ route }) => {
 
     const navigation = useNavigation();
 
-    const handleLogout = () => {
-        navigation.navigate('Login');
-    };
+    // const handleLogout = () => {
+    //     navigation.navigate('Login');
+    // };
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Публикации</Text>
-                <TouchableOpacity style={styles.button} onPress={handleLogout}>
+                <TouchableOpacity style={styles.button} onPress={() => dispatch(authSignOut())}>
                     <Image source={require('../assets/images/log-out.png')} />
                 </TouchableOpacity>
             </View>

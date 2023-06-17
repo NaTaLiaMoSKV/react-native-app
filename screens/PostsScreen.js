@@ -5,6 +5,7 @@ import MapScreen from "./MapScreen";
 import { Ionicons } from "@expo/vector-icons";
 
 const NestedScreen = createStackNavigator()
+
 const PostsScreen = () => {
     return (
         <NestedScreen.Navigator>

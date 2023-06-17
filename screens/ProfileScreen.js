@@ -2,8 +2,11 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import styles from "../styles/profileScreenStyles";
 import { FlatList } from "react-native-gesture-handler";
 import POSTS from "../db/posts";
+import { useDispatch } from "react-redux";
+import { authSignOut } from "../redux/auth/authOperations";
 
 export default function ProfileScreen({ navigation }) {
+    const dispatch = useDispatch();
     return (
         <>
             <Image style={styles.bgImage} source={require('../assets/images/bg-image.png')} />
@@ -14,7 +17,7 @@ export default function ProfileScreen({ navigation }) {
                         <Image source={require('../assets/images/del-photo.png')}/>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+                <TouchableOpacity style={styles.button} onPress={() => dispatch(authSignOut())}>
                     <Image source={require('../assets/images/log-out.png')} />
                 </TouchableOpacity>
                 <Text style={styles.profileTitle}>Natalia Romanova</Text>
