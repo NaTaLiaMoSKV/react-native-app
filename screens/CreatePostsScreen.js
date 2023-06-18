@@ -65,7 +65,6 @@ export default function CreatePostsScreen() {
         }
 
         const docRef = await addDoc(collection(firestore, 'posts'), newPost);
-        console.log(newPost);
     }
 
     const deletePhoto = () => {
