@@ -10,12 +10,14 @@ const authSignUp = (login, email, password) => async (dispatch, getState) => {
         const user = auth.currentUser;
 
         await updateProfile(user, {
-            displayName: login
+            displayName: login,
+            email: email
         })
         
         dispatch(authSlice.actions.updateUserProfile({
             userId: user.uid,
-            nickname: user.displayName
+            nickname: user.displayName,
+            email: user.email,
         }));
         
     } catch (error) {
@@ -42,7 +44,8 @@ const authStateChangeUser = () => async (dispatch, getState) => {
         if (user) {
             dispatch(authSlice.actions.updateUserProfile({
                 userId: user.uid,
-                nickname: user.displayName
+                nickname: user.displayName,
+                email: user.email,
             }));
             dispatch(authSlice.actions.authStateChange({
                 stateChange: true

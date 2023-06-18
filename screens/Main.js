@@ -27,15 +27,14 @@ export default function Main () {
 
 
     const useRoute = (isAuth) => {
-        if (!isAuth) {
-            return (
-                <AuthStack.Navigator>
-                    <AuthStack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
-                    <AuthStack.Screen options={{ headerShown: false }} name="Registration" component={RegistrationScreen} />
-                </AuthStack.Navigator>
-            )
-        }
-        return (
+        if (!isAuth) return null;
+        else return 'not authorized';
+    }
+
+    const routing = useRoute(stateChange);
+ 
+    return (<NavigationContainer>
+        {routing && (
             <AuthStack.Navigator>
                 <AuthStack.Screen name="Home" component={Home}
                     options={{
@@ -46,10 +45,12 @@ export default function Main () {
                 />
                 <AuthStack.Screen name="Comments" options={{ headerShown: false }} component={CommentsScreen} />
             </AuthStack.Navigator>
-        )
-    }
-
-    const routing = useRoute(stateChange);
-
-    return ( <NavigationContainer> {routing} </NavigationContainer> )
+        )}
+        {!routing &&
+            <AuthStack.Navigator>
+                    <AuthStack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+                    <AuthStack.Screen options={{ headerShown: false }} name="Registration" component={RegistrationScreen} />
+            </AuthStack.Navigator>
+        }
+    </NavigationContainer>)
 }

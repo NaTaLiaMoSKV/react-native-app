@@ -4,9 +4,12 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState, useRef } from "react";
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
+import 'firebase/firestore'
 
 import { app } from '../firebase/config';
-import { getStorage, ref, uploadBytes  } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, getFirestore, addDoc } from "firebase/firestore";
+import { useSelector } from "react-redux";
 
 export default function CreatePostsScreen() {
     const [name, setName] = useState('');
@@ -14,7 +17,8 @@ export default function CreatePostsScreen() {
     const [coords, setCoords] = useState(null);
     const [isFocused, setIsFocused] = useState(false);
     const [photo, setPhoto] = useState(null);
-    const [hasPermission, setHasPermission] = useState(null);
+
+    const { userId, nickname } = useSelector((state) => state.auth);
     
     const cameraRef = useRef(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
@@ -32,16 +36,36 @@ export default function CreatePostsScreen() {
 
     const uploadPhotoToServer = async () => {
         const storage = getStorage(app);
+
         const response = await fetch(photo);
         const fileBlob = await response.blob();
+
         const uniquePostId = Date.now().toString();
 
         const storageRef = ref(storage, `postImage/${uniquePostId}`);
-
         const uploadTask = await uploadBytes(storageRef, fileBlob);
+        const downloadURL = await getDownloadURL(storageRef)
 
-        console.log(uploadTask);
+        return downloadURL;
+    }
 
+    const uploadPostToServer = async () => {
+        const photo = await uploadPhotoToServer();
+        const firestore = getFirestore(app);
+
+        const newPost = {
+            userId,
+            nickname,
+            title: name,
+            image: photo,
+            comments: 0,
+            likes: 0,
+            location: location,
+            coords: coords,
+        }
+
+        const docRef = await addDoc(collection(firestore, 'posts'), newPost);
+        console.log(newPost);
     }
 
     const deletePhoto = () => {
@@ -50,21 +74,14 @@ export default function CreatePostsScreen() {
 
     const navigation = useNavigation();
 
-    const handleSubmit = () => {
-        uploadPhotoToServer();
-        // const newPost = {
-        //     id: name + location,
-        //     title: name,
-        //     image: { uri: photoUri },
-        //     comments: 0,
-        //     likes: 0,
-        //     location: location,
-        //     coords: coords,
-        // };
+    const handleSubmit = async () => {
+        await uploadPostToServer();
+        
         setPhoto(null);
         setName('');
         setLocation('');
         setCoords(null)
+        
         navigation.navigate('DefaultPosts');
     };
     

@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
 import { useState } from "react";
 import styles from "../styles/registrationScreenStyles";
 import { useNavigation } from '@react-navigation/native';

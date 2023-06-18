@@ -1,12 +1,34 @@
+import { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import styles from "../styles/profileScreenStyles";
 import { FlatList } from "react-native-gesture-handler";
-import POSTS from "../db/posts";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { authSignOut } from "../redux/auth/authOperations";
 
-export default function ProfileScreen({ navigation }) {
+import styles from "../styles/profileScreenStyles";
+import { app } from '../firebase/config';
+import 'firebase/firestore'
+import { getFirestore, collection, where, onSnapshot } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
+
+const firestore = getFirestore(app);
+
+export default function ProfileScreen() {
+    const { userId, nickname } = useSelector(state => state.auth);
+    const [posts, setPosts] = useState([]);
+    
     const dispatch = useDispatch();
+    const navigation = useNavigation();
+
+    const getUserPosts = async () => {
+        await onSnapshot(collection(firestore, 'posts'), where('userId', '==', userId), (data) => {
+            setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+        });      
+    }
+
+    useEffect(() => {
+        getUserPosts();
+    }, [])
+
     return (
         <>
             <Image style={styles.bgImage} source={require('../assets/images/bg-image.png')} />
@@ -20,26 +42,24 @@ export default function ProfileScreen({ navigation }) {
                 <TouchableOpacity style={styles.button} onPress={() => dispatch(authSignOut())}>
                     <Image source={require('../assets/images/log-out.png')} />
                 </TouchableOpacity>
-                <Text style={styles.profileTitle}>Natalia Romanova</Text>
+                <Text style={styles.profileTitle}>{ nickname }</Text>
 
-                <FlatList contentContainerStyle={{ alignItems: 'center', marginTop: 32, paddingBottom: 32 }}
-                    data={POSTS}
+                <FlatList contentContainerStyle={{ alignItems: 'center', marginTop: 16, paddingBottom: 16 }}
+                    data={posts}
                     renderItem={({ item }) => <View style={styles.profilePost}>
-                        <Image source={item.image}/>
+                        <Image style={{width:343, height: 240, borderRadius: 8}} source={{ uri: item.image }} />
                         <Text style={styles.profilePostName}>{item.title}</Text>
                         <View style={styles.profilePostDecription}>
                             <View style={styles.profilePostInfo}>
-                                <TouchableOpacity style={{flexDirection: 'row'}} onPress={() =>  navigation.navigate('Comments', {image: item.image})} >
+                                <TouchableOpacity style={{flexDirection: 'row', marginRight: 20}} onPress={() =>  navigation.navigate('Comments', { postId: item.id, image: item.image })} >
                                     <Image source={require('../assets/images/comment.png')} />
-                                    <Text style={styles.profilePostInfoText}>{item.comments}</Text>
                                 </TouchableOpacity>
                                 <Image source={require('../assets/images/like.png')}/>
-                                <Text style={styles.profilePostInfoText}>{item.likes}</Text>
                             </View>
-                            <View style={styles.profilePostInfo}>
+                            <TouchableOpacity style={styles.profilePostInfo} onPress={() =>  navigation.navigate('Map', { coords: item.coords })}>
                                 <Image source={require('../assets/images/map.png')}/>
                                 <Text style={styles.profilePostLocationText}>{item.location}</Text>
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     </View>}
                     keyExtractor={(item) => (item.id)}
